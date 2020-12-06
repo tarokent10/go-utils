@@ -17,62 +17,102 @@ var (
 	gifconv  converter = &gifConverter{}
 )
 
-func Jpeg2Png(filepath string) error {
+// Jpeg2Png converts filetype
+func Jpeg2Png(filepath string) (string, error) {
 	newpath := replaceExt(filepath, ".jpeg", ".png")
-	i, jerr := decode(jpegconv, filepath)
-	if jerr != nil {
-		return jerr
+	i, err := decode(jpegconv, filepath)
+	if err != nil {
+		return "", err
 	}
-	if perr := encode(pngconv, i, newpath); perr != nil {
-		return perr
+	if err := encode(pngconv, i, newpath); err != nil {
+		return "", err
 	}
-	if rerr := os.Remove(filepath); rerr != nil {
-		return rerr
+	if err := os.Remove(filepath); err != nil {
+		return "", err
 	}
-	return nil
+	return newpath, nil
 }
-func Jpeg2Gif(filepath string) error {
+
+// Jpeg2Gif converts filetype
+func Jpeg2Gif(filepath string) (string, error) {
 	newpath := replaceExt(filepath, ".jpeg", ".gif")
-	i, jerr := decode(jpegconv, filepath)
-	if jerr != nil {
-		return jerr
+	i, err := decode(jpegconv, filepath)
+	if err != nil {
+		return "", err
 	}
-	if perr := encode(gifconv, i, newpath); perr != nil {
-		return perr
+	if err := encode(gifconv, i, newpath); err != nil {
+		return "", err
 	}
-	if rerr := os.Remove(filepath); rerr != nil {
-		return rerr
+	if err := os.Remove(filepath); err != nil {
+		return "", err
 	}
-	return nil
+	return newpath, nil
 }
-func Png2Jpeg(filepath string) error {
+
+// Png2Jpeg converts filetype
+func Png2Jpeg(filepath string) (string, error) {
 	newpath := replaceExt(filepath, ".png", ".jpeg")
-	i, jerr := decode(pngconv, filepath)
-	if jerr != nil {
-		return jerr
+	i, err := decode(pngconv, filepath)
+	if err != nil {
+		return "", err
 	}
-	if perr := encode(jpegconv, i, newpath); perr != nil {
-		return perr
+	if err := encode(jpegconv, i, newpath); err != nil {
+		return "", err
 	}
-	if rerr := os.Remove(filepath); rerr != nil {
-		return rerr
+	if err := os.Remove(filepath); err != nil {
+		return "", err
 	}
-	return nil
+	return newpath, nil
 }
-func Png2Gif(filepath string) error {
+
+// Png2Gif converts filetype
+func Png2Gif(filepath string) (string, error) {
 	newpath := replaceExt(filepath, ".png", ".gif")
-	i, jerr := decode(pngconv, filepath)
-	if jerr != nil {
-		return jerr
+	i, err := decode(pngconv, filepath)
+	if err != nil {
+		return "", err
 	}
-	if perr := encode(gifconv, i, newpath); perr != nil {
-		return perr
+	if err := encode(gifconv, i, newpath); err != nil {
+		return "", err
 	}
-	if rerr := os.Remove(filepath); rerr != nil {
-		return rerr
+	if err := os.Remove(filepath); err != nil {
+		return "", err
 	}
-	return nil
+	return newpath, nil
 }
+
+// Gif2Jpeg converts filetype
+func Gif2Jpeg(filepath string) (string, error) {
+	newpath := replaceExt(filepath, ".gif", ".jpeg")
+	i, err := decode(gifconv, filepath)
+	if err != nil {
+		return "", err
+	}
+	if err := encode(jpegconv, i, newpath); err != nil {
+		return "", err
+	}
+	if err := os.Remove(filepath); err != nil {
+		return "", err
+	}
+	return newpath, nil
+}
+
+// Gif2Png converts filetype
+func Gif2Png(filepath string) (string, error) {
+	newpath := replaceExt(filepath, ".gif", ".png")
+	i, err := decode(gifconv, filepath)
+	if err != nil {
+		return "", err
+	}
+	if err := encode(pngconv, i, newpath); err != nil {
+		return "", err
+	}
+	if err := os.Remove(filepath); err != nil {
+		return "", err
+	}
+	return newpath, nil
+}
+
 func decode(c converter, path string) (image.Image, error) {
 	f, openErr := os.Open(path)
 	if openErr != nil {
