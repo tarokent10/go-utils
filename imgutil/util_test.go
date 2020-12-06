@@ -1,4 +1,4 @@
-package util_test
+package imgutil_test
 
 import (
 	"io"
@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/tarokent10/go-sample/imageutil/util"
+	util "github.com/tarokent10/go-utils/imgutil"
 )
 
 func TestPng2Jpeg(t *testing.T) {
